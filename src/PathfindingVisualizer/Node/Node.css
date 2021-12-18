@@ -1,0 +1,20 @@
+.node {
+  width: 25px;
+  height: 25px;
+  outline: 1px solid gray;
+  display: inline-block;
+}
+
+.node-finish {
+  width: 25px;
+  height: 25px;
+  background-color: red;
+  display: inline-block;
+}
+
+.node-start {
+  width: 25px;
+  height: 25px;
+  background-color: green;
+  display: inline-block;
+}
