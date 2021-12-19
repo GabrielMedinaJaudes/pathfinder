@@ -1,7 +1,7 @@
 .node {
   width: 25px;
   height: 25px;
-  outline: 1px solid gray;
+  outline: 1px solid rgb(175, 216, 248);
   display: inline-block;
 }
 
@@ -10,6 +10,7 @@
   height: 25px;
   background-color: red;
   display: inline-block;
+  outline: 1px solid rgb(175, 216, 248);
 }
 
 .node-start {
@@ -17,4 +18,29 @@
   height: 25px;
   background-color: green;
   display: inline-block;
+  outline: 1px solid rgb(175, 216, 248);
+}
+
+.node-visited {
+  width: 25px;
+  height: 25px;
+  background-color: blue;
+  display: inline-block;
+  outline: 1px solid rgb(175, 216, 248);
+}
+
+.node-wall {
+  width: 25px;
+  height: 25px;
+  background-color: rgb(12, 53, 71);
+  display: inline-block;
+  outline: 1px solid rgb(175, 216, 248);
+}
+
+.node-target {
+  width: 25px;
+  height: 25px;
+  background-color: yellow;
+  display: inline-block;
+  outline: 1px solid rgb(175, 216, 248);
 }
