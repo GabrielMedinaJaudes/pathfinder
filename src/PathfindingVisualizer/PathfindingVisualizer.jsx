@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Node from './Node/Node';
 import './PathfindingVisualizer.css';
-import { dijkstra } from '../Algorithms/dijkstra';
+import { dijkstra, getNodesInShortestPathOrder } from '../Algorithms/dijkstra';
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 35;
-
+const ROWS = 20;
+const COLS = 50;
 
 export default class PathfindingVisualizer extends Component {
     constructor (props) {
@@ -19,8 +20,24 @@ export default class PathfindingVisualizer extends Component {
     }
 
     resetGrid() {
-        const grid = getInitialGrid();
-        this.setState({grid});
+        const newGrid = this.state.grid;
+        for (let row = 0; row < ROWS; row++) {
+            for (let col = 0; col < COLS; col++) {
+                const node = newGrid[row][col];
+                if (node.isFinish) {
+                    document.getElementById(`node-${row}-${col}`).className = 'node-finish';
+                } else if (!node.isStart) {
+                    document.getElementById(`node-${row}-${col}`).className = 'node';
+                }
+                const newNode = {
+                    ...node,
+                    isVisited: false,
+                    isWall: false,
+                }
+                newGrid[row][col] = newNode;
+            }
+        }
+        this.setState({grid: newGrid});
     }
 
     componentDidMount() {
@@ -44,16 +61,32 @@ export default class PathfindingVisualizer extends Component {
         this.setState({isMousePressed: false});
     }
 
+
     animateDijkstra(visitedNodes) {
-        for (let i = 0; i < visitedNodes.length; i++) {
+        for (let i = 0; i <= visitedNodes.length; i++) {
+            if (i === visitedNodes.length) {
+                setTimeout(() => {
+                    this.animateShortestPath(getNodesInShortestPathOrder(this.state.grid[FINISH_NODE_ROW][FINISH_NODE_COL]));
+                }, 10 * i);
+                return;
+            }
             setTimeout(() => {
                 const node = visitedNodes[i];
                 if (!node.isStart && !node.isFinish) { 
                     document.getElementById(`node-${node.row}-${node.col}`).className = 'node-visited';
                 } else if (node.isFinish) { 
-                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node-target';
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node-shortest-path';
                 }
             }, 10 * i);
+        }
+    }
+
+    animateShortestPath(nodesInShortestPath) {
+        for (let i = 0; i < nodesInShortestPath.length; i++) {
+            setTimeout(() => {
+                const node = nodesInShortestPath[i];
+                document.getElementById(`node-${node.row}-${node.col}`).className = 'node-shortest-path';
+            }, 20 * i);
         }
     }
 
@@ -103,9 +136,9 @@ export default class PathfindingVisualizer extends Component {
 
 const getInitialGrid = () => {
     const grid = [];
-    for (let row = 0; row < 20; row++) { 
+    for (let row = 0; row < ROWS; row++) { 
         const currentRow = [];
-        for (let col = 0; col < 50; col++) {
+        for (let col = 0; col < COLS; col++) {
             const currentNode = createNode(row, col)
             currentRow.push(currentNode);
         }
