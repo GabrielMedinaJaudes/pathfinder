@@ -20,24 +20,7 @@ export default class PathfindingVisualizer extends Component {
     }
 
     resetGrid() {
-        const newGrid = this.state.grid;
-        for (let row = 0; row < ROWS; row++) {
-            for (let col = 0; col < COLS; col++) {
-                const node = newGrid[row][col];
-                if (node.isFinish) {
-                    document.getElementById(`node-${row}-${col}`).className = 'node-finish';
-                } else if (!node.isStart) {
-                    document.getElementById(`node-${row}-${col}`).className = 'node';
-                }
-                const newNode = {
-                    ...node,
-                    isVisited: false,
-                    isWall: false,
-                }
-                newGrid[row][col] = newNode;
-            }
-        }
-        this.setState({grid: newGrid});
+        document.location.reload();
     }
 
     componentDidMount() {
@@ -58,6 +41,10 @@ export default class PathfindingVisualizer extends Component {
     }
 
     handleMouseUp() {
+        this.setState({isMousePressed: false});
+    }
+
+    handleMouseLeave() {
         this.setState({isMousePressed: false});
     }
 
@@ -105,9 +92,9 @@ export default class PathfindingVisualizer extends Component {
             <button onClick={() => this.visualizeDijkstra()}>
                 Visualize Dijkstra's Algorithm
             </button>
-            {/* <button onClick={() => this.resetGrid()}>
+            <button onClick={() => this.resetGrid()}>
                 Reset
-            </button> */}
+            </button>
             <div className="grid">
                 {grid.map((row, rowIdx) => {
                     return (
@@ -169,6 +156,8 @@ const getNewGridWithWallToggled = (grid, row, col) => {
         ...node,
         isWall: !node.isWall,
     };
+    console.log(node);
+    document.getElementById(`node-${node.row}-${node.col}`).className = 'node-wall';
     newGrid[row][col] = newNode;
     return newGrid;
 }
