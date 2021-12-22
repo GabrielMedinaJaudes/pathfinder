@@ -73,7 +73,7 @@ export default class PathfindingVisualizer extends Component {
             setTimeout(() => {
                 const node = nodesInShortestPath[i];
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node-shortest-path';
-            }, 20 * i);
+            }, 25 * i);
         }
     }
 
@@ -108,8 +108,8 @@ export default class PathfindingVisualizer extends Component {
                                     isFinish={node.isFinish}
                                     isVisited={node.isVisited}
                                     isWall={node.isWall}
-                                    onMouseDown={(row, col) => this.handleMouseDown(row, col)} 
-                                    onMouseEnter={(row, col) => this.handleMouseEnter(row, col)} 
+                                    onMouseDown={(r, c) => this.handleMouseDown(r, c)} 
+                                    onMouseEnter={(r, c) => this.handleMouseEnter(r, c)} 
                                     onMouseUp={() => this.handleMouseUp()}
                                 ></Node>)}
                         </div>
