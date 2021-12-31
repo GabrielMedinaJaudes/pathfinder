@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Node from './Node/Node';
 import './PathfindingVisualizer.css';
 import { dijkstra, getNodesInShortestPathOrder } from '../Algorithms/dijkstra';
+import { bfs } from '../Algorithms/bfs'
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
@@ -49,7 +50,7 @@ export default class PathfindingVisualizer extends Component {
     }
 
 
-    animateDijkstra(visitedNodes) {
+    animate(visitedNodes) {
         for (let i = 0; i <= visitedNodes.length; i++) {
             if (i === visitedNodes.length) {
                 setTimeout(() => {
@@ -77,20 +78,27 @@ export default class PathfindingVisualizer extends Component {
         }
     }
 
-    visualizeDijkstra() {
+    visualize(algorithm) {
         const { grid } = this.state;
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-        const visitedNodes = dijkstra(grid, startNode, finishNode);
-        this.animateDijkstra(visitedNodes)
+        let visitedNodes;
+        if (algorithm === "dijkstra")
+            visitedNodes = dijkstra(grid, startNode, finishNode);
+        else
+            visitedNodes = bfs(grid, startNode, finishNode);
+        this.animate(visitedNodes)
     }
 
     render() {
         const { grid } = this.state;
         return (
         <>
-            <button onClick={() => this.visualizeDijkstra()}>
+            <button onClick={() => this.visualize("dijkstra")}>
                 Visualize Dijkstra's Algorithm
+            </button>
+            <button onClick={() => this.visualize("bfs")}>
+                Visualize Breadth First Search
             </button>
             <button onClick={() => this.resetGrid()}>
                 Reset
