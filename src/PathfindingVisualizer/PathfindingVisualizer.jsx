@@ -3,7 +3,8 @@ import { Button } from '@material-ui/core';
 import Node from './Node/Node';
 import './PathfindingVisualizer.css';
 import { dijkstra, getNodesInShortestPathOrder } from '../Algorithms/dijkstra';
-import { bfs } from '../Algorithms/bfs'
+import bfs from '../Algorithms/bfs';
+import dfs from '../Algorithms/dfs';
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
@@ -84,10 +85,13 @@ export default class PathfindingVisualizer extends Component {
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
         let visitedNodes;
-        if (algorithm === "dijkstra")
+        if (algorithm === "dijkstra") {
             visitedNodes = dijkstra(grid, startNode, finishNode);
-        else
+        } else if (algorithm === "bfs") {
             visitedNodes = bfs(grid, startNode, finishNode);
+        } else {
+            visitedNodes = dfs(grid, startNode, finishNode);
+        }
         this.animate(visitedNodes)
     }
 
@@ -100,6 +104,9 @@ export default class PathfindingVisualizer extends Component {
             </Button>
             <Button onClick={() => this.visualize("bfs")}>
                 Visualize Breadth First Search
+            </Button>
+            <Button onClick={() => this.visualize("dfs")}>
+                Visualize Depth First Search
             </Button>
             <Button onClick={() => this.resetGrid()}>
                 Reset

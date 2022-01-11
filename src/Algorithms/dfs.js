@@ -1,8 +1,8 @@
-export default function bfs (grid, startNode, finishNode) {
+export default function dfs (grid, startNode, finishNode) {
     const unvisitedNodes = [startNode];
     const visitedNodes = [];
     while (unvisitedNodes.length) {
-        const closestNode = unvisitedNodes.shift();
+        const closestNode = unvisitedNodes.pop();
         if (closestNode.isWall)
             continue;
         if (closestNode.isVisited)
