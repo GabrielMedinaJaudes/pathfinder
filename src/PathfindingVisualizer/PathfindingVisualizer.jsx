@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from '@material-ui/core';
 import Node from './Node/Node';
 import './PathfindingVisualizer.css';
 import { dijkstra, getNodesInShortestPathOrder } from '../Algorithms/dijkstra';
@@ -94,15 +95,15 @@ export default class PathfindingVisualizer extends Component {
         const { grid } = this.state;
         return (
         <>
-            <button onClick={() => this.visualize("dijkstra")}>
+            <Button onClick={() => this.visualize("dijkstra")}>
                 Visualize Dijkstra's Algorithm
-            </button>
-            <button onClick={() => this.visualize("bfs")}>
+            </Button>
+            <Button onClick={() => this.visualize("bfs")}>
                 Visualize Breadth First Search
-            </button>
-            <button onClick={() => this.resetGrid()}>
+            </Button>
+            <Button onClick={() => this.resetGrid()}>
                 Reset
-            </button>
+            </Button>
             <div className="grid">
                 {grid.map((row, rowIdx) => {
                     return (
