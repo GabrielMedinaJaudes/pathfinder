@@ -125,16 +125,16 @@ export default class PathfindingVisualizer extends Component {
             <Button onClick={() => this.visualize("dfs")}>
                 Visualize Depth First Search
             </Button>
-            <Button onClick={() => this.toggleWeights()}>
+            {/* <Button onClick={() => this.toggleWeights()}>
                 Toggle between creating walls and weights
-            </Button>
+            </Button> */}
             <Button onClick={() => this.resetGrid()}>
                 Reset
             </Button>
             <div className="grid">
-                <Typography>
+                {/* <Typography>
                     {this.state.isWeights ? "You are now creating weights" : "You are now creating walls"}
-                </Typography>
+                </Typography> */}
                 {grid.map((row, rowIdx) => {
                     return (
                         <div key={rowIdx}>
