@@ -1,3 +1,4 @@
-In the project directory, run:
+To begin, the project directory, run:
 
-### `npm start`
+### npm start
+
