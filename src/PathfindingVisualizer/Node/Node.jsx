@@ -8,6 +8,8 @@ export default class Node extends Component {
             return ("node-finish");
         } else if (props.isStart) {
             return ("node-start");
+        } else if (props.isWeight) {
+            return ("node-weight");
         } else if (props.isVisited) {
             return ("node-visited");
         } else if (props.isWall) {
@@ -18,7 +20,7 @@ export default class Node extends Component {
     }
     
     render() {
-        const {row, col, onMouseDown, onMouseEnter, onMouseUp} = this.props;
+        const { row, col, onMouseDown, onMouseEnter, onMouseUp } = this.props;
         const className = this.getClassName(this.props);
         return (
             <div 

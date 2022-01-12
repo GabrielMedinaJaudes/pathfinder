@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import Node from './Node/Node';
 import './PathfindingVisualizer.css';
 import { dijkstra, getNodesInShortestPathOrder } from '../Algorithms/dijkstra';
@@ -19,6 +19,7 @@ export default class PathfindingVisualizer extends Component {
         this.state = { 
             grid: [],
             isMousePressed: false,
+            isWeights: false,
         };
     }
 
@@ -28,19 +29,36 @@ export default class PathfindingVisualizer extends Component {
 
     componentDidMount() {
         const grid = getInitialGrid();
-        this.setState({grid})
+        this.setState({grid});
+        document.title = "GMJ's Pathfinder";
     }
 
+    toggleWeights() {
+        this.setState({isWeights: !this.state.isWeights})
+    }
+
+
     handleMouseDown(row, col) {
-        const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
+        var newGrid;
+        if (this.state.isWeights) {
+            newGrid = getNewGridWithWeightToggled(this.state.grid, row, col);
+        } else {
+            newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
+        }
         this.setState({grid: newGrid, isMousePressed: true});
     }
 
     handleMouseEnter(row, col) {
         if (this.state.isMousePressed) {
-            const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
-            this.setState({grid: newGrid});
+            if (this.state.isWeights) {
+                const newGrid = getNewGridWithWeightToggled(this.state.grid, row,  col);
+                this.setState({grid: newGrid});
+            } else {
+                const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
+                this.setState({grid: newGrid});
+            }
         }
+
     }
 
     handleMouseUp() {
@@ -50,7 +68,6 @@ export default class PathfindingVisualizer extends Component {
     handleMouseLeave() {
         this.setState({isMousePressed: false});
     }
-
 
     animate(visitedNodes) {
         for (let i = 0; i <= visitedNodes.length; i++) {
@@ -111,6 +128,12 @@ export default class PathfindingVisualizer extends Component {
             <Button onClick={() => this.resetGrid()}>
                 Reset
             </Button>
+            <Button onClick={() => this.toggleWeights()}>
+                Click here to toggle between creating walls and weights
+            </Button>
+            <Typography>
+                {this.state.isWeights ? "You are now creating weights" : "You are now creating walls"}
+            </Typography>
             <div className="grid">
                 {grid.map((row, rowIdx) => {
                     return (
@@ -172,8 +195,19 @@ const getNewGridWithWallToggled = (grid, row, col) => {
         ...node,
         isWall: !node.isWall,
     };
-    console.log(node);
     document.getElementById(`node-${node.row}-${node.col}`).className = 'node-wall';
+    newGrid[row][col] = newNode;
+    return newGrid;
+}
+
+const getNewGridWithWeightToggled = (grid, row, col) => {
+    const newGrid = grid.slice();
+    const node = newGrid[row][col];
+    const newNode = {
+        ...node,
+        distance: 50,
+    }
+    document.getElementById(`node-${node.row}-${node.col}`).className = 'node-weight';
     newGrid[row][col] = newNode;
     return newGrid;
 }
